@@ -64,6 +64,8 @@ class ViewNewsController: UIViewController {
     }
     func loadFavorites(){
         realmManager.loadRealmData()
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [unowned self]value in
                 self.realmObject = value
             }).disposed(by: disposeBag)

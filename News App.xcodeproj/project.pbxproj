@@ -10,7 +10,13 @@
 		04EA2F6C1B3AD8B002219442 /* libPods-News AppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14B82D50A2A64E969AEB573 /* libPods-News AppTests.a */; };
 		0A20F8D2C7A0F02A3941C6D7 /* libPods-News AppUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E49D2C5B98D2F0830E622E70 /* libPods-News AppUITests.a */; };
 		D603D0B32D11D586429CE199 /* Pods_News_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEC0732069C4405731B80FE /* Pods_News_App.framework */; };
-		F00C21D622E99677004C951F /* AlamofireRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D522E99677004C951F /* AlamofireRequest.swift */; };
+		F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D522E99677004C951F /* AlamofireManager.swift */; };
+		F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
+		F00C21DA22EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
+		F00C21DB22EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
+		F00C21DC22EAF059004C951F /* FavoriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D822EAF059004C951F /* FavoriteDelegate.swift */; };
+		F00C21DD22EAF059004C951F /* FavoriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D822EAF059004C951F /* FavoriteDelegate.swift */; };
+		F00C21DE22EAF059004C951F /* FavoriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D822EAF059004C951F /* FavoriteDelegate.swift */; };
 		F0442EEA22DF024F009AFE8F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0442EE922DF024F009AFE8F /* TabBarController.swift */; };
 		F0442EED22DF1095009AFE8F /* FavoriteNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0442EEB22DF0C24009AFE8F /* FavoriteNewsViewController.swift */; };
 		F0442EEF22DF1896009AFE8F /* NewsFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0442EEE22DF1896009AFE8F /* NewsFavorite.swift */; };
@@ -52,7 +58,9 @@
 		A4DFCE74D791D110F874A35B /* Pods-News AppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News AppUITests.release.xcconfig"; path = "Target Support Files/Pods-News AppUITests/Pods-News AppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D14B82D50A2A64E969AEB573 /* libPods-News AppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-News AppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E49D2C5B98D2F0830E622E70 /* libPods-News AppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-News AppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F00C21D522E99677004C951F /* AlamofireRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireRequest.swift; sourceTree = "<group>"; };
+		F00C21D522E99677004C951F /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
+		F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPressDelegate.swift; sourceTree = "<group>"; };
+		F00C21D822EAF059004C951F /* FavoriteDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDelegate.swift; sourceTree = "<group>"; };
 		F0442EE922DF024F009AFE8F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F0442EEB22DF0C24009AFE8F /* FavoriteNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNewsViewController.swift; sourceTree = "<group>"; };
 		F0442EEE22DF1896009AFE8F /* NewsFavorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFavorite.swift; sourceTree = "<group>"; };
@@ -160,7 +168,9 @@
 				F0E4207522DC68140010E14C /* Assets.xcassets */,
 				F0E4207722DC68140010E14C /* LaunchScreen.storyboard */,
 				F0E4207A22DC68140010E14C /* Info.plist */,
-				F00C21D522E99677004C951F /* AlamofireRequest.swift */,
+				F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */,
+				F00C21D822EAF059004C951F /* FavoriteDelegate.swift */,
+				F00C21D522E99677004C951F /* AlamofireManager.swift */,
 				F0442EF022DF2FF6009AFE8F /* RealmManager.swift */,
 				F0442EEE22DF1896009AFE8F /* NewsFavorite.swift */,
 				F085A25922DC88E200D65D70 /* News.swift */,
@@ -406,12 +416,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00C21DC22EAF059004C951F /* FavoriteDelegate.swift in Sources */,
 				F085A25E22DCF9E000D65D70 /* ViewNewsController.swift in Sources */,
 				F0E4209F22DC699D0010E14C /* NewsTableViewCell.swift in Sources */,
 				F0442EEF22DF1896009AFE8F /* NewsFavorite.swift in Sources */,
 				F0E4207122DC68120010E14C /* NewsTableViewController.swift in Sources */,
 				F0442EEA22DF024F009AFE8F /* TabBarController.swift in Sources */,
-				F00C21D622E99677004C951F /* AlamofireRequest.swift in Sources */,
+				F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */,
+				F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */,
 				F0442EF122DF2FF6009AFE8F /* RealmManager.swift in Sources */,
 				F085A25A22DC88E200D65D70 /* News.swift in Sources */,
 				F0E4206F22DC68120010E14C /* AppDelegate.swift in Sources */,
@@ -423,6 +435,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00C21DD22EAF059004C951F /* FavoriteDelegate.swift in Sources */,
+				F00C21DA22EAF059004C951F /* ButtonPressDelegate.swift in Sources */,
 				F0E4208422DC68140010E14C /* News_AppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +445,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00C21DE22EAF059004C951F /* FavoriteDelegate.swift in Sources */,
+				F00C21DB22EAF059004C951F /* ButtonPressDelegate.swift in Sources */,
 				F0E4208F22DC68140010E14C /* News_AppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

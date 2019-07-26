@@ -11,7 +11,7 @@ import RxSwift
 import Alamofire
 import RxCocoa
 
-class AlamofireRequest {
+class AlamofireManager {
     
     func requestData() -> Observable<[Article]>{
         return Observable.create{ observer -> Disposable in

@@ -37,31 +37,24 @@ class RealmManager {
         newz.title = usedNew.title
         newz.descr = usedNew.description
         newz.urlToImg = usedNew.urlToImage
-        return Observable.create{ observer -> Disposable in
             do{
                 let realm = try! Realm()
                 try realm.write {
                     guard let SaKeyem = realm.object(ofType: NewsFavorite.self, forPrimaryKey: usedNew.title) else { return }
                     realm.delete(SaKeyem)
                 }
+                return Observable.just("success")
             }catch{
-                observer.onNext("Error deleting object")
-            }
-            return Disposables.create()
+                return Observable.just("Error adding object")
             
         }
-        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .observeOn(MainScheduler.instance)
+
     }
     
     func loadRealmData() -> Observable<Results<NewsFavorite>>{
-        return Observable.create{ observer in
             let realm = try! Realm()
             let realmObject = realm.objects(NewsFavorite.self)
-            observer.onNext(realmObject)
-            return Disposables.create()
+            return Observable.just(realmObject)
             }
-            .asObservable()
-        
 }
-}
+

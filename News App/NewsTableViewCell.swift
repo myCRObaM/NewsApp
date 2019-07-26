@@ -18,6 +18,7 @@ class NewsTableViewCell: UITableViewCell{
     var loadednewss: Article!
     var favoriteID: Int = 0
     var rxIsFavorite = PublishSubject<Article>()
+    var buttonIsPressedDelegate: ButtonPressDelegate?
     private(set) var disposableBag = DisposeBag()
     var buttonIsPressed: () -> Void = {}
     
@@ -82,6 +83,7 @@ class NewsTableViewCell: UITableViewCell{
     
     
     @objc func changeFavorites(){
+        buttonIsPressedDelegate?.buttonIsPressed(new: loadednewss)
     }
     
     required init?(coder aDecoder: NSCoder) {

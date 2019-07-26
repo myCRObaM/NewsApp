@@ -32,6 +32,7 @@ class FavoriteNewsViewController: UIViewController, UITableViewDelegate,UITableV
     let manageRealm = RealmManager()
     var realmObject: Results<NewsFavorite>!
     var brojacUcitavanja: Int = 0
+    var changeFavoriteStateDelegate: FavoriteDelegate?
     var news = [Article]()
     var disposeBag = DisposeBag()
     var rxIsFavorite = PublishSubject<Article>()
@@ -81,11 +82,11 @@ class FavoriteNewsViewController: UIViewController, UITableViewDelegate,UITableV
         var realmObjWithIndex = news[indexPath.row]
         realmObjWithIndex.isFavorite = returnBool(IzRealmaUObj: realmObjWithIndex)
         
-        cell.favoriteButton.rx.tap
-            .bind { [weak self] in
-                self?.rxIsFavorite.onNext(realmObjWithIndex)
-            }.disposed(by: cell.disposableBag)
-        
+//        cell.favoriteButton.rx.tap
+//            .bind { [weak self] in
+//                self?.rxIsFavorite.onNext(realmObjWithIndex)
+//            }.disposed(by: cell.disposableBag)
+//
         cell.setObject(news: realmObjWithIndex)
         return cell
     }
@@ -115,4 +116,9 @@ class FavoriteNewsViewController: UIViewController, UITableViewDelegate,UITableV
     
 }
 
+extension FavoriteNewsViewController: ButtonPressDelegate{
+    func buttonIsPressed(new: Article) {
+        changeFavoriteStateDelegate?.changeFavoriteState(news: new)
+    }
+}
 

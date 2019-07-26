@@ -28,10 +28,13 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         return titleLabel
     }()
     var saveTime: Int = 0
+    var savedTimeForRefresh = PublishSubject<String>()
+    var afRequestDownloaded = PublishSubject<String>()
     private let refreshControl = UIRefreshControl()
     var newsloaded = [Article]()
     var realmObject: Results<NewsFavorite>!
     var rxIsFavorite = PublishSubject<Article>()
+    var changeFavoriteStateDelegate: FavoriteDelegate?
     let realmManager = RealmManager()
     let disposeBag = DisposeBag()
     
@@ -44,6 +47,8 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func loadFavorites(){
         realmManager.loadRealmData()
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [unowned self]value in
                 self.realmObject = value
             }).disposed(by: disposeBag)
@@ -61,6 +66,7 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     let realmClass = RealmManager()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getData()
         refresh()
     }
     
@@ -70,11 +76,12 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let new = newsloaded[indexPath.row]
         cell.setObject(news: new)
-        cell.favoriteButton.rx.tap
-            .bind { [weak self] in
-                self?.rxIsFavorite.onNext(new)
-        }.disposed(by: cell.disposableBag)
-        
+        cell.buttonIsPressedDelegate = self
+//        cell.favoriteButton.rx.tap
+//            .bind { [weak self] in
+//                self?.rxIsFavorite.onNext(new)
+//        }.disposed(by: cell.disposableBag)
+//        
         return cell
     }
     
@@ -133,28 +140,44 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing News Data")
     }
-    func refresh(){
-        let date = Date()
-        
-        if saveTime + 300 < Int(date.timeIntervalSince1970) || saveTime == 0{
-            getData()
-        }
-        
-    }
+  
     
     func getData(){
-        #warning("publisher koji javlja da se podatci sa af skinu")
-            let alamofireObject = AlamofireRequest()
-            alamofireObject.requestData()
-                .subscribe(onNext: { [unowned self] article in
+        savedTimeForRefresh
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { conformation in
+                //print(conformation)
+                let alamofireObject = AlamofireManager()
+                alamofireObject.requestData()
+                    .observeOn(MainScheduler.instance)
+                    .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+                    .subscribe(onNext: { [unowned self] article in
                         self.newsloaded = article
                         let date = Date()
                         self.objectBool(new: self.newsloaded)
-                        self.tableView.reloadData()
                         self.refreshControl.endRefreshing()
                         self.saveTime = Int(date.timeIntervalSince1970)
-                }).disposed(by: disposeBag)
-        #warning("publisher koji javlja da su podatci skinuti")
+                        self.afRequestDownloaded.onNext("Skinuto")
+                    }
+                    ).disposed(by: self.disposeBag)
+            }).disposed(by: disposeBag)
+        
+        afRequestDownloaded
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [unowned self] downloaded in
+                self.tableView.reloadData()
+            }).disposed(by: disposeBag)
+    }
+    
+    func refresh(){
+        let date = Date()
+        if saveTime + 300 < Int(date.timeIntervalSince1970) || saveTime == 0{
+            getData()
+            savedTimeForRefresh.onNext("Download")
+        }
+        
     }
     
     
@@ -170,8 +193,14 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @objc private func refreshApiData(_ sender: Any) {
         getData()
+        savedTimeForRefresh.onNext("Download")
     }
  
+}
+extension NewsTableViewController: ButtonPressDelegate{
+    func buttonIsPressed(new: Article) {
+        changeFavoriteStateDelegate?.changeFavoriteState(news: new)
+    }
 }
 
 
