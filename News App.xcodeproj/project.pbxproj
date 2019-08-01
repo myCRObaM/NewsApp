@@ -10,6 +10,11 @@
 		04EA2F6C1B3AD8B002219442 /* libPods-News AppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14B82D50A2A64E969AEB573 /* libPods-News AppTests.a */; };
 		0A20F8D2C7A0F02A3941C6D7 /* libPods-News AppUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E49D2C5B98D2F0830E622E70 /* libPods-News AppUITests.a */; };
 		D603D0B32D11D586429CE199 /* Pods_News_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEC0732069C4405731B80FE /* Pods_News_App.framework */; };
+		F00422F822EF1D3D00C8CB2B /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00422F722EF1D3D00C8CB2B /* TableViewModel.swift */; };
+		F004230422F0613B00C8CB2B /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230322F0613B00C8CB2B /* FavoriteViewModel.swift */; };
+		F004230622F06E4600C8CB2B /* ViewNewsModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230522F06E4600C8CB2B /* ViewNewsModelView.swift */; };
+		F004230922F18A5500C8CB2B /* FavoritesEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230822F18A5500C8CB2B /* FavoritesEnum.swift */; };
+		F004230B22F19DD100C8CB2B /* LoaderEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230A22F19DD100C8CB2B /* LoaderEnum.swift */; };
 		F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D522E99677004C951F /* AlamofireManager.swift */; };
 		F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
 		F00C21DA22EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
@@ -58,6 +63,11 @@
 		A4DFCE74D791D110F874A35B /* Pods-News AppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News AppUITests.release.xcconfig"; path = "Target Support Files/Pods-News AppUITests/Pods-News AppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D14B82D50A2A64E969AEB573 /* libPods-News AppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-News AppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E49D2C5B98D2F0830E622E70 /* libPods-News AppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-News AppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00422F722EF1D3D00C8CB2B /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		F004230322F0613B00C8CB2B /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		F004230522F06E4600C8CB2B /* ViewNewsModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewNewsModelView.swift; sourceTree = "<group>"; };
+		F004230822F18A5500C8CB2B /* FavoritesEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesEnum.swift; sourceTree = "<group>"; };
+		F004230A22F19DD100C8CB2B /* LoaderEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderEnum.swift; sourceTree = "<group>"; };
 		F00C21D522E99677004C951F /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPressDelegate.swift; sourceTree = "<group>"; };
 		F00C21D822EAF059004C951F /* FavoriteDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +144,88 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F00422FA22F01A9500C8CB2B /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				F0E4206E22DC68120010E14C /* AppDelegate.swift */,
+				F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */,
+				F00C21D822EAF059004C951F /* FavoriteDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		F00422FB22F01AAD00C8CB2B /* AllNews */ = {
+			isa = PBXGroup;
+			children = (
+				F0E4207022DC68120010E14C /* NewsTableViewController.swift */,
+				F00422F722EF1D3D00C8CB2B /* TableViewModel.swift */,
+			);
+			path = AllNews;
+			sourceTree = "<group>";
+		};
+		F00422FC22F01AC800C8CB2B /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				F0442EE922DF024F009AFE8F /* TabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		F00422FD22F01AD100C8CB2B /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				F085A25D22DCF9E000D65D70 /* ViewNewsController.swift */,
+				F004230522F06E4600C8CB2B /* ViewNewsModelView.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		F00422FE22F01B0800C8CB2B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F085A25922DC88E200D65D70 /* News.swift */,
+				F0442EEE22DF1896009AFE8F /* NewsFavorite.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F00422FF22F01B2D00C8CB2B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F0442EF022DF2FF6009AFE8F /* RealmManager.swift */,
+				F00C21D522E99677004C951F /* AlamofireManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		F004230122F0601D00C8CB2B /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				F0E4209E22DC699D0010E14C /* NewsTableViewCell.swift */,
+				F004230222F0602B00C8CB2B /* FavoriteNews */,
+				F00422FB22F01AAD00C8CB2B /* AllNews */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		F004230222F0602B00C8CB2B /* FavoriteNews */ = {
+			isa = PBXGroup;
+			children = (
+				F0442EEB22DF0C24009AFE8F /* FavoriteNewsViewController.swift */,
+				F004230322F0613B00C8CB2B /* FavoriteViewModel.swift */,
+			);
+			path = FavoriteNews;
+			sourceTree = "<group>";
+		};
+		F004230722F188E700C8CB2B /* enum */ = {
+			isa = PBXGroup;
+			children = (
+				F004230822F18A5500C8CB2B /* FavoritesEnum.swift */,
+				F004230A22F19DD100C8CB2B /* LoaderEnum.swift */,
+			);
+			path = enum;
+			sourceTree = "<group>";
+		};
 		F0E4206222DC68120010E14C = {
 			isa = PBXGroup;
 			children = (
@@ -159,21 +251,16 @@
 		F0E4206D22DC68120010E14C /* News App */ = {
 			isa = PBXGroup;
 			children = (
-				F0E4206E22DC68120010E14C /* AppDelegate.swift */,
-				F0442EE922DF024F009AFE8F /* TabBarController.swift */,
-				F085A25D22DCF9E000D65D70 /* ViewNewsController.swift */,
-				F0E4209E22DC699D0010E14C /* NewsTableViewCell.swift */,
-				F0E4207022DC68120010E14C /* NewsTableViewController.swift */,
-				F0442EEB22DF0C24009AFE8F /* FavoriteNewsViewController.swift */,
+				F004230722F188E700C8CB2B /* enum */,
+				F00422FF22F01B2D00C8CB2B /* Manager */,
+				F00422FA22F01A9500C8CB2B /* Delegates */,
+				F004230122F0601D00C8CB2B /* TableView */,
+				F00422FE22F01B0800C8CB2B /* Classes */,
+				F00422FD22F01AD100C8CB2B /* Details */,
+				F00422FC22F01AC800C8CB2B /* TabBar */,
 				F0E4207522DC68140010E14C /* Assets.xcassets */,
 				F0E4207722DC68140010E14C /* LaunchScreen.storyboard */,
 				F0E4207A22DC68140010E14C /* Info.plist */,
-				F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */,
-				F00C21D822EAF059004C951F /* FavoriteDelegate.swift */,
-				F00C21D522E99677004C951F /* AlamofireManager.swift */,
-				F0442EF022DF2FF6009AFE8F /* RealmManager.swift */,
-				F0442EEE22DF1896009AFE8F /* NewsFavorite.swift */,
-				F085A25922DC88E200D65D70 /* News.swift */,
 			);
 			path = "News App";
 			sourceTree = "<group>";
@@ -422,11 +509,16 @@
 				F0442EEF22DF1896009AFE8F /* NewsFavorite.swift in Sources */,
 				F0E4207122DC68120010E14C /* NewsTableViewController.swift in Sources */,
 				F0442EEA22DF024F009AFE8F /* TabBarController.swift in Sources */,
+				F004230922F18A5500C8CB2B /* FavoritesEnum.swift in Sources */,
+				F004230B22F19DD100C8CB2B /* LoaderEnum.swift in Sources */,
+				F004230622F06E4600C8CB2B /* ViewNewsModelView.swift in Sources */,
+				F004230422F0613B00C8CB2B /* FavoriteViewModel.swift in Sources */,
 				F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */,
 				F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */,
 				F0442EF122DF2FF6009AFE8F /* RealmManager.swift in Sources */,
 				F085A25A22DC88E200D65D70 /* News.swift in Sources */,
 				F0E4206F22DC68120010E14C /* AppDelegate.swift in Sources */,
+				F00422F822EF1D3D00C8CB2B /* TableViewModel.swift in Sources */,
 				F0442EED22DF1095009AFE8F /* FavoriteNewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

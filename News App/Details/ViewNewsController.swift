@@ -52,30 +52,40 @@ class ViewNewsController: UIViewController {
     }()
     
     
-    var loadednews: Article?
-    var realmObject: Results<NewsFavorite>!
+
     let disposeBag = DisposeBag()
-    var realmManager = RealmManager()
+    var buttonIsPressedDelegate: ButtonPressDelegate?
+    var viewModel: ViewNewsModelView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadFavorites()
+        configureStar()
+        viewModel.configureStars(subject: viewModel.starInitSubject).disposed(by: disposeBag)
+        viewModel.buttonIsPressedDelegate = buttonIsPressedDelegate
         setupUI()
         setupView()
     }
-    func loadFavorites(){
-        realmManager.loadRealmData()
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [unowned self]value in
-                self.realmObject = value
-            }).disposed(by: disposeBag)
+     init(news: Article, model: ViewNewsModelView) {
+        
+        viewModel = model
+        viewModel.loadDataToViewModel(news: news)
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func sendDataToViewController(news: Article){
+        viewModel.loadDataToViewModel(news: news)
+    }
+    
     
     func setupUI(){
         view.addSubview(newsImageView)
         view.addSubview(newsTitleView)
         view.addSubview(newsArticleView)
-        navBarTitleLabel.text = loadednews?.title
+        navBarTitleLabel.text = viewModel.loadednews.title
         navigationItem.titleView = navBarTitleLabel
 
         favoriteButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
@@ -84,22 +94,26 @@ class ViewNewsController: UIViewController {
         
         starSetup()
     }
+    
+    
     func starSetup() {
-        if loadednews != nil {
-            favoriteButton.isSelected = loadednews?.isFavorite ?? false
-        }
+        viewModel.starInitSubject.onNext(true)
     }
+
     @objc func addTapped(){
-        if loadednews != nil {
-            if loadednews?.isFavorite ?? false {
-                loadednews?.isFavorite = false
-            }
-            else {loadednews?.isFavorite = true}
-        }
-        
-        starSetup()
+        self.buttonIsPressedDelegate?.buttonIsPressed(new: viewModel.loadednews)
+        viewModel.starInitSubject.onNext(true)
     }
     
+    
+    func configureStar(){
+        viewModel.starSubject
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: {[unowned self] bool in
+                self.favoriteButton.isSelected = bool
+            }).disposed(by: disposeBag)
+    }
     func setupConstraints(){
         
         navigationController?.navigationBar.isTranslucent = false
@@ -124,12 +138,10 @@ class ViewNewsController: UIViewController {
         
     }
     func setupView(){
-        newsImageView.kf.setImage(with: URL(string: loadednews!.urlToImage))
-        newsTitleView.text = loadednews?.title
-        newsArticleView.text = loadednews?.description
+        newsImageView.kf.setImage(with: URL(string: viewModel.loadednews.urlToImage))
+        newsTitleView.text = viewModel.loadednews.title
+        newsArticleView.text = viewModel.loadednews.description
         
     }
-    
-    
-    
 }
+

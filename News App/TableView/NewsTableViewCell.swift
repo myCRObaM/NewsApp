@@ -70,7 +70,7 @@ class NewsTableViewCell: UITableViewCell{
         
     }
     
-    func setObject(news: Article){
+    func configureCell(news: Article){
         favoriteButton.isSelected = news.isFavorite ?? false
         artImageView.kf.setImage(with: URL(string: news.urlToImage))
         articleDisc.text = news.title

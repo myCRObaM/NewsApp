@@ -14,7 +14,7 @@ class RealmManager {
     
     
     
-    func addobjToRealm(usedNew: Article) -> Observable<String> {
+    func addobjToRealm(usedNew: Article, index: IndexPath) -> Observable<IndexPath> {
         let realmObject = NewsFavorite()
         realmObject.descr = usedNew.description
         realmObject.title = usedNew.title
@@ -22,17 +22,16 @@ class RealmManager {
         realmObject.isFavorite = true
             do {
                 let realm = try! Realm()
-                print("\r⚡️: \(Thread.current)\r" + "🏭: \(OperationQueue.current?.underlyingQueue?.label ?? "None")\r")
                 try realm.write {
                     realm.add(realmObject)
                 }
-                return Observable.just("success")
+                return Observable.just(index)
             }catch{
-                return Observable.just("Error adding object")
+                return Observable.just(index)
         }
     }
     
-    func deleteObject(usedNew: Article) -> Observable<String>{
+    func deleteObject(usedNew: Article, index: IndexPath) -> Observable<IndexPath>{
         let newz = NewsFavorite()
         newz.title = usedNew.title
         newz.descr = usedNew.description
@@ -43,9 +42,9 @@ class RealmManager {
                     guard let SaKeyem = realm.object(ofType: NewsFavorite.self, forPrimaryKey: usedNew.title) else { return }
                     realm.delete(SaKeyem)
                 }
-                return Observable.just("success")
+                return Observable.just(index)
             }catch{
-                return Observable.just("Error adding object")
+                return Observable.just(index)
             
         }
 
