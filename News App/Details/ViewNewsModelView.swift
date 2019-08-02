@@ -33,5 +33,12 @@ class ViewNewsModelView {
                 self.starSubject.onNext(self.loadednews.isFavorite ?? false)
             })
     }
+    func changeState(){
+        if loadednews.isFavorite ?? false {
+            loadednews.isFavorite = false
+        } else {
+            loadednews.isFavorite = true
+        }
+    }
     
 }

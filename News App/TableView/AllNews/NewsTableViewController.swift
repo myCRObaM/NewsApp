@@ -33,6 +33,7 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private let refreshControl = UIRefreshControl()
     var changeFavoriteStateDelegate: FavoriteDelegate?
+    var selectedDetailsDelegate: DetailsNavigationDelegate?
     var vSpinner : UIView?
     let disposeBag = DisposeBag()
     let viewModel = TableViewModel()
@@ -43,7 +44,6 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         setupView()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.checkRefreshTime()
@@ -53,7 +53,10 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func prepareForViewModel(){
         refreshTableView(subject: viewModel.refreshTableViewSubject)
         popUpError(subject: viewModel.errorWithLoading)
+        viewModel.addFavorites(subject: viewModel.addNewsSubject).disposed(by: disposeBag)
+        viewModel.removeFavorites(subject: viewModel.removeNewsSubject).disposed(by: disposeBag)
         viewModel.getData(subject: viewModel.getNewsSubject).disposed(by: disposeBag)
+        editFavoriteRows()
     }
     
     
@@ -78,10 +81,9 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let detailsViewModel = ViewNewsModelView()
-        let newsController = ViewNewsController(news: viewModel.newsloaded[indexPath.row], model: detailsViewModel)
-        newsController.buttonIsPressedDelegate = self
-        navigationController?.pushViewController(newsController, animated: true)
+       let detailsViewModel = ViewNewsModelView()
+        selectedDetailsDelegate?.openDetailsView(selectedNews: viewModel.newsloaded[indexPath.row], model: detailsViewModel, nav: navigationController!)
+        
     }
     
     
@@ -149,30 +151,22 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         viewModel.getNewsSubject.onNext(true)
     }
     
-    func addToFavorites(news: Article){
-        viewModel.addToFavorites(news: news)
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [unowned self] index in
-                self.tableView.reloadRows(at: [index], with: .automatic)
-            }).disposed(by: disposeBag)
-    }
-    func removeFavorites(news: Article){
-        viewModel.removeFavorites(news: news)
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [unowned self] index in
-                self.tableView.reloadRows(at: [index], with: .automatic)
-            }).disposed(by: disposeBag)
+    
+    func changeFavorite(news: Article){
+        viewModel.changeFavorite(newss: news)
     }
     
-    func changeFavorites(news: Article){
-        if news.isFavorite ?? false {
-            removeFavorites(news: news)
-        } else {
-            addToFavorites(news: news)
-        }
+    func editFavoriteRows(){
+        viewModel.favoritesChanged
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [unowned self] index in
+              self.tableView.reloadRows(at: index, with: .automatic)
+            }).disposed(by: disposeBag)
+        
     }
+    
+    
     
     func showSpinner(onView : UIView) {
         let spinnerView = UIView.init(frame: onView.bounds)

@@ -55,7 +55,9 @@ class ViewNewsController: UIViewController {
 
     let disposeBag = DisposeBag()
     var buttonIsPressedDelegate: ButtonPressDelegate?
+    var selectedDetailsDelegate: DetailsNavigationDelegate?
     var viewModel: ViewNewsModelView!
+    weak var coordinatorI: DetailsViewCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,8 +67,7 @@ class ViewNewsController: UIViewController {
         setupUI()
         setupView()
     }
-     init(news: Article, model: ViewNewsModelView) {
-        
+    init(news: Article, model: ViewNewsModelView) {
         viewModel = model
         viewModel.loadDataToViewModel(news: news)
         super.init(nibName: nil, bundle: nil)
@@ -95,6 +96,10 @@ class ViewNewsController: UIViewController {
         starSetup()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        selectedDetailsDelegate?.deinitedViewController()
+    }
+    
     
     func starSetup() {
         viewModel.starInitSubject.onNext(true)
@@ -102,6 +107,7 @@ class ViewNewsController: UIViewController {
 
     @objc func addTapped(){
         self.buttonIsPressedDelegate?.buttonIsPressed(new: viewModel.loadednews)
+        viewModel.changeState()
         viewModel.starInitSubject.onNext(true)
     }
     
@@ -114,6 +120,7 @@ class ViewNewsController: UIViewController {
                 self.favoriteButton.isSelected = bool
             }).disposed(by: disposeBag)
     }
+    
     func setupConstraints(){
         
         navigationController?.navigationBar.isTranslucent = false
@@ -144,4 +151,8 @@ class ViewNewsController: UIViewController {
         
     }
 }
-
+extension DetailsViewCoordinator: ButtonPressDelegate{
+    func buttonIsPressed(new: Article) {
+        changeFavoriteStateDelegate?.changeFavoriteState(news: new)
+    }
+}

@@ -15,6 +15,13 @@
 		F004230622F06E4600C8CB2B /* ViewNewsModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230522F06E4600C8CB2B /* ViewNewsModelView.swift */; };
 		F004230922F18A5500C8CB2B /* FavoritesEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230822F18A5500C8CB2B /* FavoritesEnum.swift */; };
 		F004230B22F19DD100C8CB2B /* LoaderEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230A22F19DD100C8CB2B /* LoaderEnum.swift */; };
+		F004230E22F2BB8F00C8CB2B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004230D22F2BB8F00C8CB2B /* Coordinator.swift */; };
+		F004231222F2BDFC00C8CB2B /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004231122F2BDFC00C8CB2B /* TabBarCoordinator.swift */; };
+		F004231A22F2E06200C8CB2B /* DetailsViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004231922F2E06200C8CB2B /* DetailsViewCoordinator.swift */; };
+		F004231C22F2F5C800C8CB2B /* DetailsNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004231B22F2F5C800C8CB2B /* DetailsNavigationDelegate.swift */; };
+		F004231E22F3179C00C8CB2B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004231D22F3179C00C8CB2B /* AppCoordinator.swift */; };
+		F004232022F3307000C8CB2B /* NewsTableViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004231F22F3307000C8CB2B /* NewsTableViewCoordinator.swift */; };
+		F004232322F332AB00C8CB2B /* FavoriteNewsTableCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004232222F332AB00C8CB2B /* FavoriteNewsTableCoordinator.swift */; };
 		F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D522E99677004C951F /* AlamofireManager.swift */; };
 		F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
 		F00C21DA22EAF059004C951F /* ButtonPressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */; };
@@ -68,6 +75,13 @@
 		F004230522F06E4600C8CB2B /* ViewNewsModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewNewsModelView.swift; sourceTree = "<group>"; };
 		F004230822F18A5500C8CB2B /* FavoritesEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesEnum.swift; sourceTree = "<group>"; };
 		F004230A22F19DD100C8CB2B /* LoaderEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderEnum.swift; sourceTree = "<group>"; };
+		F004230D22F2BB8F00C8CB2B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		F004231122F2BDFC00C8CB2B /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		F004231922F2E06200C8CB2B /* DetailsViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewCoordinator.swift; sourceTree = "<group>"; };
+		F004231B22F2F5C800C8CB2B /* DetailsNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsNavigationDelegate.swift; sourceTree = "<group>"; };
+		F004231D22F3179C00C8CB2B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		F004231F22F3307000C8CB2B /* NewsTableViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCoordinator.swift; sourceTree = "<group>"; };
+		F004232222F332AB00C8CB2B /* FavoriteNewsTableCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNewsTableCoordinator.swift; sourceTree = "<group>"; };
 		F00C21D522E99677004C951F /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPressDelegate.swift; sourceTree = "<group>"; };
 		F00C21D822EAF059004C951F /* FavoriteDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +163,7 @@
 			children = (
 				F0E4206E22DC68120010E14C /* AppDelegate.swift */,
 				F00C21D722EAF059004C951F /* ButtonPressDelegate.swift */,
+				F004231B22F2F5C800C8CB2B /* DetailsNavigationDelegate.swift */,
 				F00C21D822EAF059004C951F /* FavoriteDelegate.swift */,
 			);
 			path = Delegates;
@@ -217,13 +232,26 @@
 			path = FavoriteNews;
 			sourceTree = "<group>";
 		};
-		F004230722F188E700C8CB2B /* enum */ = {
+		F004230722F188E700C8CB2B /* Enum */ = {
 			isa = PBXGroup;
 			children = (
 				F004230822F18A5500C8CB2B /* FavoritesEnum.swift */,
 				F004230A22F19DD100C8CB2B /* LoaderEnum.swift */,
 			);
-			path = enum;
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		F004230C22F2BB0300C8CB2B /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				F004230D22F2BB8F00C8CB2B /* Coordinator.swift */,
+				F004231D22F3179C00C8CB2B /* AppCoordinator.swift */,
+				F004231122F2BDFC00C8CB2B /* TabBarCoordinator.swift */,
+				F004231F22F3307000C8CB2B /* NewsTableViewCoordinator.swift */,
+				F004232222F332AB00C8CB2B /* FavoriteNewsTableCoordinator.swift */,
+				F004231922F2E06200C8CB2B /* DetailsViewCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		F0E4206222DC68120010E14C = {
@@ -251,7 +279,8 @@
 		F0E4206D22DC68120010E14C /* News App */ = {
 			isa = PBXGroup;
 			children = (
-				F004230722F188E700C8CB2B /* enum */,
+				F004230722F188E700C8CB2B /* Enum */,
+				F004230C22F2BB0300C8CB2B /* Coordinator */,
 				F00422FF22F01B2D00C8CB2B /* Manager */,
 				F00422FA22F01A9500C8CB2B /* Delegates */,
 				F004230122F0601D00C8CB2B /* TableView */,
@@ -503,23 +532,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F004231E22F3179C00C8CB2B /* AppCoordinator.swift in Sources */,
 				F00C21DC22EAF059004C951F /* FavoriteDelegate.swift in Sources */,
 				F085A25E22DCF9E000D65D70 /* ViewNewsController.swift in Sources */,
 				F0E4209F22DC699D0010E14C /* NewsTableViewCell.swift in Sources */,
 				F0442EEF22DF1896009AFE8F /* NewsFavorite.swift in Sources */,
 				F0E4207122DC68120010E14C /* NewsTableViewController.swift in Sources */,
 				F0442EEA22DF024F009AFE8F /* TabBarController.swift in Sources */,
+				F004232022F3307000C8CB2B /* NewsTableViewCoordinator.swift in Sources */,
 				F004230922F18A5500C8CB2B /* FavoritesEnum.swift in Sources */,
 				F004230B22F19DD100C8CB2B /* LoaderEnum.swift in Sources */,
+				F004230E22F2BB8F00C8CB2B /* Coordinator.swift in Sources */,
 				F004230622F06E4600C8CB2B /* ViewNewsModelView.swift in Sources */,
 				F004230422F0613B00C8CB2B /* FavoriteViewModel.swift in Sources */,
+				F004231A22F2E06200C8CB2B /* DetailsViewCoordinator.swift in Sources */,
+				F004232322F332AB00C8CB2B /* FavoriteNewsTableCoordinator.swift in Sources */,
 				F00C21D622E99677004C951F /* AlamofireManager.swift in Sources */,
+				F004231222F2BDFC00C8CB2B /* TabBarCoordinator.swift in Sources */,
 				F00C21D922EAF059004C951F /* ButtonPressDelegate.swift in Sources */,
 				F0442EF122DF2FF6009AFE8F /* RealmManager.swift in Sources */,
 				F085A25A22DC88E200D65D70 /* News.swift in Sources */,
 				F0E4206F22DC68120010E14C /* AppDelegate.swift in Sources */,
 				F00422F822EF1D3D00C8CB2B /* TableViewModel.swift in Sources */,
 				F0442EED22DF1095009AFE8F /* FavoriteNewsViewController.swift in Sources */,
+				F004231C22F2F5C800C8CB2B /* DetailsNavigationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,18 +31,15 @@ class FavoriteNewsViewController: UIViewController, UITableViewDelegate,UITableV
     let viewModel = FavoriteViewModel()
     var disposeBag = DisposeBag()
     var changeFavoriteStateDelegate: FavoriteDelegate?
+    var selectedDetailsDelegate: DetailsNavigationDelegate?
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getData().disposed(by: disposeBag)
-        
-        
         viewModel.addFavorites(subject: viewModel.articleSubjectAdd).disposed(by: disposeBag)
         viewModel.removeFavorites(subject: viewModel.articleSubjectRemove).disposed(by: disposeBag)
-        
-        
         editFavoriteRows()
         setupTableView()
     }
@@ -80,9 +77,10 @@ class FavoriteNewsViewController: UIViewController, UITableViewDelegate,UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let detailsViewModel = ViewNewsModelView()
-        let newsController = ViewNewsController(news: viewModel.news[indexPath.row], model: detailsViewModel)
-        newsController.buttonIsPressedDelegate = self
-        navigationController?.pushViewController(newsController, animated: true)
+//        let newsController = ViewNewsController(news: viewModel.news[indexPath.row], model: detailsViewModel)
+//        newsController.buttonIsPressedDelegate = self
+//        navigationController?.pushViewController(newsController, animated: true)
+        selectedDetailsDelegate?.openDetailsView(selectedNews: viewModel.news[indexPath.row], model: detailsViewModel, nav: navigationController!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
