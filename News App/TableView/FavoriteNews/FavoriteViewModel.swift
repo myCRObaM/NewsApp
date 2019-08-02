@@ -16,6 +16,7 @@ class FavoriteViewModel {
     var realmObject: Results<NewsFavorite>!
     var articleSubjectAdd = PublishSubject<Article>()
     var articleSubjectRemove = PublishSubject<Article>()
+    var changeFavoriteSubject = PublishSubject<Article>()
     var favoriteChangeSubject = PublishSubject<favoriteChangeEnum>()
     var brojacUcitavanja: Int = 0
     var news = [Article]()
@@ -36,40 +37,27 @@ class FavoriteViewModel {
             })
     }
     
-    func addFavorites(subject: PublishSubject<Article>) -> Disposable{
+    func changeFavorite(subject: PublishSubject<Article>) -> Disposable{
         return subject
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [unowned self] newss in
-                self.news.append(Article(title: newss.title, description: newss.description, urlToImage: newss.urlToImage, isFavorite: true))
-                let favNewsIndex = self.news.firstIndex(where: {$0.urlToImage == newss.urlToImage})
-                let newIndexOfCell: IndexPath = IndexPath(row: favNewsIndex ?? -1, section: 0)
-                self.favoriteChangeSubject.onNext(favoriteChangeEnum.add([newIndexOfCell]))
+            .map({[unowned self] newss -> (Int, IndexPath) in
+                if newss.isFavorite ?? false {
+                    let newsIndex = self.returnIndexPathForCell(newss: newss)
+                    let newIndexPath: IndexPath = IndexPath(row: newsIndex, section: 0)
+                    self.news.remove(at: newsIndex)
+                    self.favoriteChangeSubject.onNext(favoriteChangeEnum.remove([newIndexPath]))
+                    return (newsIndex, newIndexPath)
+                } else {
+                    self.news.append(Article(title: newss.title, description: newss.description, urlToImage: newss.urlToImage, isFavorite: true))
+                    let favNewsIndex = self.returnIndexPathForCell(newss: newss)
+                    let newIndexOfCell: IndexPath = IndexPath(row: favNewsIndex, section: 0)
+                    self.favoriteChangeSubject.onNext(favoriteChangeEnum.add([newIndexOfCell]))
+                    return (favNewsIndex, newIndexOfCell)
+                }
             })
-    }
-    
-    func removeFavorites(subject: PublishSubject<Article>) -> Disposable{
-        return subject
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .map({newss -> (Int, IndexPath) in
-                let newsIndex = self.returnIndexPathForCell(newss: newss)
-                let newIndexPath: IndexPath = IndexPath(row: newsIndex, section: 0)
-                return (newsIndex, newIndexPath)
+            .subscribe(onNext: { newsIndex, newIndexPath in
             })
-            .subscribe(onNext: { [unowned self] newsIndex, newIndexPath in
-                self.news.remove(at: newsIndex)
-                self.favoriteChangeSubject.onNext(favoriteChangeEnum.remove([newIndexPath]))
-            })
-    }
-    
-    func changeFavorite(newss: Article){
-        if newss.isFavorite ?? false {
-            articleSubjectRemove.onNext(newss)
-        }
-        else {
-            articleSubjectAdd.onNext(newss)
-        }
     }
 
     func returnIndexPathForCell(newss: Article) -> Int{

@@ -23,7 +23,6 @@ class TabBarCoordinator: Coordinator {
         parent = controller
     }
     
-    
     func start() {
         setupControllers()
     }
@@ -32,8 +31,9 @@ class TabBarCoordinator: Coordinator {
         allNewsNavController = allNewsNavigation()
         favoriteNewsNavController = favoriteNavigation()
         
-        let newsTableView = NewsTableViewCoordinator(parent: parent, root: self)
-        let favnewsTableView = FavoriteNewsTableCoordinator(parent: parent, root: self)
+        let newsTableView = NewsTableViewCoordinator(navController: allNewsNavController, root: self)
+        let favnewsTableView = FavoriteNewsTableCoordinator(navController: favoriteNewsNavController, root: self)
+        
         newsTableView.start()
         favnewsTableView.start()
         allNewsNavController.viewControllers = [allNewsViewController]
@@ -55,16 +55,4 @@ class TabBarCoordinator: Coordinator {
         return navController
     }
 }
-extension NewsTableViewCoordinator: DetailsNavigationDelegate {
-    func deinitedViewController() {
-        print("asd")
-    }
-    
-    func openDetailsView(selectedNews: Article, model: ViewNewsModelView, nav: UINavigationController) {
-        let detailsVeiwCoordinator = DetailsViewCoordinator(presenter: nav, loadedNews: selectedNews, model: model)
-        childCoordinators.append(detailsVeiwCoordinator)
-        detailsVeiwCoordinator.start()
-    }
-    
-    
-}
+

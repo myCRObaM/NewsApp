@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 protocol DetailsNavigationDelegate {
-    func openDetailsView(selectedNews: Article, model: ViewNewsModelView, nav: UINavigationController)
-    func deinitedViewController()
+    func openDetailsView(news: Article)
 }
 

@@ -53,8 +53,7 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func prepareForViewModel(){
         refreshTableView(subject: viewModel.refreshTableViewSubject)
         popUpError(subject: viewModel.errorWithLoading)
-        viewModel.addFavorites(subject: viewModel.addNewsSubject).disposed(by: disposeBag)
-        viewModel.removeFavorites(subject: viewModel.removeNewsSubject).disposed(by: disposeBag)
+        viewModel.changeFavorite(subject: viewModel.changeFavoriteSubject).disposed(by: disposeBag)
         viewModel.getData(subject: viewModel.getNewsSubject).disposed(by: disposeBag)
         editFavoriteRows()
     }
@@ -81,9 +80,8 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-       let detailsViewModel = ViewNewsModelView()
-        selectedDetailsDelegate?.openDetailsView(selectedNews: viewModel.newsloaded[indexPath.row], model: detailsViewModel, nav: navigationController!)
-        
+        selectedDetailsDelegate?.openDetailsView(news: viewModel.newsloaded[indexPath.row])
+
     }
     
     
@@ -153,7 +151,7 @@ class NewsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     func changeFavorite(news: Article){
-        viewModel.changeFavorite(newss: news)
+        viewModel.changeFavoriteSubject.onNext(news)
     }
     
     func editFavoriteRows(){

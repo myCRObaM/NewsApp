@@ -20,6 +20,7 @@ class TableViewModel {
     var getNewsSubject = PublishSubject<Bool>()
     var addNewsSubject = PublishSubject<Article>()
     var removeNewsSubject = PublishSubject<Article>()
+    var changeFavoriteSubject = PublishSubject<Article>()
     var favoritesChanged = PublishSubject<[IndexPath]>()
     var errorWithLoading = PublishSubject<Bool>()
     var dataIsLoaded = PublishSubject<[Article]>()
@@ -65,9 +66,7 @@ class TableViewModel {
                 self.newsloaded = article
                 let date = Date()
                 self.saveTime = Int(date.timeIntervalSince1970)
-                //self.spinnerDelegate?.hideSpinner()
                 self.spinnerSubject.onNext(.removeLoader)
-                //self.removeSpinner()
                 self.refreshTableViewSubject.onNext(true)
             }, onError: { [unowned self] error in
                 self.errorWithLoading.onNext(true)
@@ -83,40 +82,27 @@ class TableViewModel {
         
     }
     
-    func changeFavorite(newss: Article){
-        if newss.isFavorite ?? false {
-            removeNewsSubject.onNext(newss)
-        }
-        else {
-            addNewsSubject.onNext(newss)
-        }
-    }
     
-    func addFavorites(subject: PublishSubject<Article>) -> Disposable{
+    func changeFavorite(subject: PublishSubject<Article>) -> Disposable{
         return subject
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [unowned self] newss in
-                let index = self.returnIndexPathForCell(news: newss)
-                self.newsloaded[index].isFavorite = true
-                let newIndexOfCell: IndexPath = IndexPath(row: index, section: 0)
-                //self.realmObject.addobjToRealm(usedNew: Article(title: newss.title, description: newss.description, urlToImage: newss.urlToImage, isFavorite: true), index: newIndexOfCell)
-                self.favoritesChanged.onNext([newIndexOfCell])
+            .map({[unowned self] newss -> (Int, IndexPath) in
+                if newss.isFavorite ?? false {
+                    let index = self.returnIndexPathForCell(news: newss)
+                    self.newsloaded[index].isFavorite = false
+                    let newIndexOfCell: IndexPath = IndexPath(row: index, section: 0)
+                    self.favoritesChanged.onNext([newIndexOfCell])
+                    return (index, newIndexOfCell)
+                } else {
+                    let newsIndex = self.returnIndexPathForCell(news: newss)
+                    let newIndexPath: IndexPath = IndexPath(row: newsIndex, section: 0)
+                    self.newsloaded[newsIndex].isFavorite = true
+                    self.favoritesChanged.onNext([newIndexPath])
+                    return (newsIndex, newIndexPath)
+                }
             })
-    }
-    
-    func removeFavorites(subject: PublishSubject<Article>) -> Disposable{
-        return subject
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .map({newss -> (Int, IndexPath) in
-                let newsIndex = self.returnIndexPathForCell(news: newss)
-                let newIndexPath: IndexPath = IndexPath(row: newsIndex, section: 0)
-                return (newsIndex, newIndexPath)
-            })
-            .subscribe(onNext: { [unowned self] newsIndex, newIndexPath in
-                self.newsloaded[newsIndex].isFavorite = false
-                self.favoritesChanged.onNext([newIndexPath])
+            .subscribe(onNext: { newsIndex, newIndexPath in
             })
     }
     

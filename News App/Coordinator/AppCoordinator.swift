@@ -25,8 +25,6 @@ class AppCoordinator: Coordinator {
         window.makeKeyAndVisible()
         
         myCoordinator.start()
-        
-        
     }
     
     

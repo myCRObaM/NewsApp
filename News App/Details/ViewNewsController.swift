@@ -56,8 +56,9 @@ class ViewNewsController: UIViewController {
     let disposeBag = DisposeBag()
     var buttonIsPressedDelegate: ButtonPressDelegate?
     var selectedDetailsDelegate: DetailsNavigationDelegate?
+    weak var coordinator: DetailsViewCoordinator?
     var viewModel: ViewNewsModelView!
-    weak var coordinatorI: DetailsViewCoordinator?
+    var workIsDelegate: WorkIsDoneDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +98,8 @@ class ViewNewsController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        selectedDetailsDelegate?.deinitedViewController()
+        super.viewDidDisappear(animated)
+        workIsDelegate?.done(cooridinator: coordinator!)
     }
     
     
@@ -151,8 +153,11 @@ class ViewNewsController: UIViewController {
         
     }
 }
-extension DetailsViewCoordinator: ButtonPressDelegate{
-    func buttonIsPressed(new: Article) {
-        changeFavoriteStateDelegate?.changeFavoriteState(news: new)
-    }
-}
+
+
+
+//extension DetailsViewCoordinator: ButtonPressDelegate{
+//    func buttonIsPressed(new: Article) {
+//        changeFavoriteStateDelegate?.changeFavoriteState(news: new)
+//    }
+//}
